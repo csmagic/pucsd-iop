@@ -1,0 +1,7 @@
+The sample function calls for myif and while are:
+    myif (Lt (Var "x") (Val 2)) [("x", (Val 3)), ("y", (Val 28))] [("a", (Val 29)), ("b", (Val 23))] [("x", 3)]
+    Output:
+        [("b",23),("a",29),("x",3)]
+    while (Lt (Var "x") (Val 2)) [("x", (Val 3)), ("y", (Val 28))] [("x", 1)]
+    Output:
+        [("y",28),("x",3)]
