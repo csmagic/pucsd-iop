@@ -1,0 +1,22 @@
+anupama@Gpa:~/pucsd-iop$ ghci
+GHCi, version 7.10.3: http://www.haskell.org/ghc/  :? for help
+Prelude> :l new1.hs
+[1 of 1] Compiling Main             ( new1.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t NewData
+NewData :: a b -> NewType a b
+*Main> :t NewData1
+NewData1 :: a -> b -> NewType1 a b
+*Main> :k NewType
+NewType :: (* -> *) -> * -> *
+*Main> :k NewType1
+NewType1 :: * -> * -> *
+*Main> :t NewData (Just 2)
+NewData (Just 2) :: Num b => NewType Maybe b
+*Main> :t NewData1 2 'c'
+NewData1 2 'c' :: Num a => NewType1 a Char
+*Main> :t NewData [2]
+NewData [2] :: Num b => NewType [] b
+*Main> :k [] Int
+[] Int :: *
+*Main> 

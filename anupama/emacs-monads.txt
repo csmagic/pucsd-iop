@@ -1,0 +1,87 @@
+anupama@Gpa:~/pucsd-iop$ ghci
+GHCi, version 7.10.3: http://www.haskell.org/ghc/  :? for help
+Prelude> :t (>>)
+(>>) :: Monad m => m a -> m b -> m b
+Prelude> :t (>>=)
+(>>=) :: Monad m => m a -> (a -> m b) -> m b
+Prelude> :t Just 2
+Just 2 :: Num a => Maybe a
+*Main> [] >>  [1,2,3]
+[]
+*Main> [1,2,3] >> [3,4]
+[3,4,3,4,3,4]
+*Main> [1,2,3] >>= \x -> [3,4]
+[3,4,3,4,3,4]
+*Main> :k (-> ) Int
+(-> ) Int :: * -> *
+*Main> :k (Int -> Char)
+(Int -> Char) :: *
+*Main> [1,2,3] >>= \_ -> [3,4]
+[3,4,3,4,3,4]
+*Main> [1,2,3] >>= \x -> [x+3,x+4]
+[4,5,5,6,6,7]
+*Main> return 2
+2
+*Main> return 2::[]
+
+<interactive>:20:11:
+    Expecting one more argument to ‘[]’
+    Expected a type, but ‘[]’ has kind ‘* -> *’
+    In an expression type signature: []
+    In the expression: return 2 :: []
+    In an equation for ‘it’: it = return 2 :: []
+*Main> return 2::[Int]
+[2]
+*Main> return 2::Maybe
+
+<interactive>:22:11:
+    Expecting one more argument to ‘Maybe’
+    Expected a type, but ‘Maybe’ has kind ‘* -> *’
+    In an expression type signature: Maybe
+    In the expression: return 2 :: Maybe
+    In an equation for ‘it’: it = return 2 :: Maybe
+    
+*Main> return 2::Maybe Int
+Just 2
+*Main> Just 2 >>= \x -> return (x + 3)
+Just 5
+*Main> Just 2 >>= \x -> Just 3 >>= \y -> return (x + y)
+Just 5
+*Main> Nothing >>= \x -> return (x + 3)
+Nothing
+*Main> Nothing >>= \x -> Just 3 >>= \y -> return (x + y)
+Nothing
+*Main> Right [] >>= \x -> 1:x
+
+<interactive>:36:20:
+    Couldn't match type ‘[]’ with ‘Either a’
+    Expected type: Either a b
+      Actual type: [b]
+    Relevant bindings include
+      it :: Either a b (bound at <interactive>:36:1)
+    In the expression: 1 : x
+    In the second argument of ‘(>>=)’, namely ‘\ x -> 1 : x’
+    In the expression: Right [] >>= \ x -> 1 : x
+*Main> Right [] >>= \x -> return (1:x)
+Right [1]
+*Main> :t getLine
+getLine :: IO String
+*Main> :t putStrLn
+putStrLn :: String -> IO ()
+*Main> getLine >>  putStrLn 
+
+<interactive>:40:13:
+    Couldn't match expected type ‘IO b’
+                with actual type ‘String -> IO ()’
+    Relevant bindings include it :: IO b (bound at <interactive>:40:1)
+    Probable cause: ‘putStrLn’ is applied to too few arguments
+    In the second argument of ‘(>>)’, namely ‘putStrLn’
+    In the expression: getLine >> putStrLn
+*Main> getLine >>=  putStrLn 
+aaaa
+aaaa
+*Main> getLine >>=  (\x -> putStrLn x >> putStrLn x) 
+anupama
+anupama
+anupama
+*Main> 
