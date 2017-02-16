@@ -1,0 +1,84 @@
+{- If Control.Monad.State import does not work try with 
+   Control.Monad.Trans.State.Lazy
+
+   Do not try the following in the interpreter
+   :k State
+   :t State
+   :t put
+   :t get
+
+   For the above please refer to definitions in stateMonad.hs shown in class
+   which contains old definitions and is useful to understand the state 
+   monad concept.
+
+   To help you get started manually work out the following expressions and 
+   types 
+
+   1) runState get 1
+      runState (State (\x -> (x,x))) 1 By defn of get
+      (\x->(x,x)) 1   By defn of runState
+      (1,1) (By func application)
+
+   2) runState (put 1) 0 
+      runState (State (\_ -> ((),1))) 0 By defn of put
+      (\_ -> ((),1)) 0  By defn of runState
+      ((),1) By function application
+
+   3) runState (get >>= \x -> put (x+1)) 0
+      
+      runState h 0 .....where h = f >>= g
+                              g = get  
+			      f = \x -> put (x+1)
+ 
+      g = State (\y -> (y,y))
+
+      f = \x -> State (\_ -> ((),x+1))
+
+      g >>= f Can you continue using definition of bind ?   
+   -}
+
+anupama@anupama-desktop:~/github-repos/pucsd-iop/anupama$ ghci
+GHCi, version 7.4.2: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Prelude> :m Control.Monad.State
+Prelude Control.Monad.State> :t runState
+runState :: State s a -> s -> (a, s)
+Prelude Control.Monad.State> :t evalState
+evalState :: State s a -> s -> a
+Prelude Control.Monad.State> :t execState
+execState :: State s a -> s -> s
+Prelude Control.Monad.State> :t runState
+runState :: State s a -> s -> (a, s)
+Prelude Control.Monad.State> runState get 0
+Loading package transformers-0.4.1.0 ... linking ... done.
+Loading package mtl-2.2.1 ... linking ... done.
+(0,0)
+Prelude Control.Monad.State> runState (put 1) 0
+((),1)
+Prelude Control.Monad.State> runState (put 1) 2
+((),1)
+Prelude Control.Monad.State> runState (get >>= \x -> put (x+1)) 0
+((),1)
+Prelude Control.Monad.State> runState (get >>= \x -> put (x+1)) 1
+((),2)
+Prelude Control.Monad.State> runState (get >> put 2 >> put 3) 4
+((),3)
+Prelude Control.Monad.State> runState (put 2 >>= \_ -> get) 0 
+(2,2)
+Prelude Control.Monad.State> runState (put 2 >> get) 0 
+(2,2)
+Prelude Control.Monad.State> execState get 1
+1
+Prelude Control.Monad.State> evalState get 1
+1
+Prelude Control.Monad.State> evalState (put 5) 1
+()
+Prelude Control.Monad.State> evalState (modify (+1)) 1
+()
+Prelude Control.Monad.State> execState (modify (+1)) 1
+2
+Prelude Control.Monad.State> execState (get >>= \x -> put (x+1)) 1
+2
+Prelude Control.Monad.State>  
