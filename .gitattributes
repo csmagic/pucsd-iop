@@ -1,0 +1,22 @@
+*.c		text
+*.h		text
+*.sh		text
+*.org		text
+*.sh		text
+*.pov		text
+.gitattributes	text
+.gitignore	text
+
+*.hs		text
+*.lhs		text
+*.gs		text
+*.lgs		text
+
+ChangeLog	text
+Makefile*	text
+makefile*	text
+
+*.n		text
+*.lbn		text
+
+*.pdf		binary
