@@ -1,0 +1,89 @@
+
+Prelude> :l myType.hs
+[1 of 1] Compiling Main             ( myType.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :k MyType
+MyType :: * -> *
+*Main> :t MyType
+
+<interactive>:1:1: Not in scope: data constructor ‘MyType’
+*Main> :t Var
+Var :: a -> MyType a
+*Main> :t Const
+Const :: Int -> MyType a
+*Main> :k Exp
+Exp :: *
+*Main> :t EVar
+EVar :: Char -> Exp
+*Main> :t EConst
+EConst :: Int -> Exp
+*Main> :l myType.hs
+[1 of 1] Compiling Main             ( myType.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :k Colour
+Colour :: *
+*Main> :t Green
+Green :: Colour
+*Main> :t Yellow
+Yellow :: Colour
+*Main> EVar 'a' == EVar 'b'
+True
+*Main> EVar 'a' == EVar 'a'
+True
+*Main> :t YVar (Just 2)
+YVar (Just 2) :: Num a => MyYetAnotherType Maybe a
+*Main> :t YVar (Just (2::Int))
+YVar (Just (2::Int)) :: MyYetAnotherType Maybe Int
+*Main> :k MyYetAnotherType
+MyYetAnotherType :: (* -> *) -> * -> *
+*Main> Var 2 == Var 3
+False
+*Main> Var 2 == Var 2
+True
+*Main> Const 4 == Const 4
+True
+*Main> Const 4 == Const 5
+False
+*Main> :t Var (EVar 'c')
+Var (EVar 'c') :: MyType Exp
+*Main> :t Const (EConst 4)
+
+<interactive>:1:8:
+    Couldn't match expected type ‘Int’ with actual type ‘Exp’
+    In the first argument of ‘Const’, namely ‘(EConst 4)’
+    In the expression: Const (EConst 4)
+*Main> EVar 2 == EVar 3
+
+<interactive>:29:6:
+    No instance for (Num Char) arising from the literal ‘2’
+    In the first argument of ‘EVar’, namely ‘2’
+    In the first argument of ‘(==)’, namely ‘EVar 2’
+    In the expression: EVar 2 == EVar 3
+*Main> EVar '2' == EVar '3'
+True
+*Main> Var '3' == Var '5'
+False
+*Main> Var '3' == Var '3'
+True
+*Main> :t Var (EVar '2')
+Var (EVar '2') :: MyType Exp
+*Main> Var (EVar '2') == Var (EVar '2')
+True
+*Main> Var (EVar '2') == Var (EVar '3')
+True
+*Main> :t Var Green
+Var Green :: MyType Colour
+*Main> Var Green == Var Yellow
+
+<interactive>:37:11:
+    No instance for (Eq Colour) arising from a use of ‘==’
+    In the expression: Var Green == Var Yellow
+    In an equation for ‘it’: it = Var Green == Var Yellow
+Prelude> :l myType.hs
+[1 of 1] Compiling Main             ( myType.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> Green == Green
+True
+*Main> Green == Blue
+False
+*Main>  

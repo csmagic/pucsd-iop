@@ -1,0 +1,30 @@
+Prelude> :l stateMonad.hs
+[1 of 1] Compiling Main             ( stateMonad.hs, interpreted )
+Ok, modules loaded: Main.
+*Main> :t name
+name :: Student -> String
+*Main> :t stuVal
+stuVal :: Student
+*Main> :t stuVal1
+stuVal1 :: Student
+*Main> name stuVal
+"Preety"
+*Main>:t stuVal
+stuVal :: Student
+*Main> :t StudentD "Preety" 2000 2 "MCA" 
+StudentD "Preety" 2000 2 "MCA" :: Student1
+*Main> :t Lambda (\x -> (x + 2, x+3))
+Lambda (\x -> (x + 2, x+3)) :: Num x => FuncType x
+*Main> :t func
+func :: FuncType1 x -> x -> (x, x)
+*Main> func  $  Lambda1 (\x -> (x + 2, x+3))
+
+<interactive>:19:1:
+    No instance for (Show (x0 -> (x0, x0)))
+      arising from a use of `print'
+    Possible fix:
+      add an instance declaration for (Show (x0 -> (x0, x0)))
+    In a stmt of an interactive GHCi command: print it
+*Main> (func  $  Lambda1 (\x -> (x + 2, x+3)) ) 4
+(6,7)
+*Main> 
