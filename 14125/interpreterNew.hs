@@ -5,14 +5,15 @@ data LogicalOperator = And | Or deriving (Show,Eq)
 data State = State [(Variable,Value)] deriving (Show,Eq)
 data Variable = Var String deriving (Show,Eq)
 data Value = Result Int | Boolean Bool deriving (Show,Eq)
-data Ctype = Assign String AirthmeticExp  deriving (Show,Eq)
+data Ctype = Assign String AirthmeticExp| While RelationalExp [Ctype] deriving (Show,Eq)
 
 data AirthmeticExp  = VarA String | Num Int | AirthmeticOperation AirthmeticOperator AirthmeticExp AirthmeticExp  deriving (Show,Eq)
 data RelationalExp = Val Bool | RelationalOperation  RelationalOperator AirthmeticExp AirthmeticExp deriving (Show,Eq)
 data LogicalExp = BoolVal Bool | LogicalOperation LogicalOperator RelationalExp RelationalExp | Not RelationalExp deriving (Show,Eq)   
 
 aeval :: Ctype -> State ->State
-aeval (Assign v e) s = State [(Var v,Result (eval e))] 
+aeval (Assign v e) [] = State [(Var v,Result (eval e))]
+--aeval (Assign v e) ((s,a):ls) = if v==s then ((s,eval e))
 
 eval :: AirthmeticExp -> Int
 eval (Num n) = n
